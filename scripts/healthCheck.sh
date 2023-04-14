@@ -1,10 +1,10 @@
 #!/bin/bash
 echo "> Health check 시작"
-echo "> curl -s http://localhost:8080/health "
+echo "> curl -s http://localhost:8080/api/image/health "
 
 for RETRY_COUNT in {1..15}
 do
-  RESPONSE=$(curl -s http://localhost:8080/health)
+  RESPONSE=$(curl -s http://localhost:8080/api/image/health)
   UP_COUNT=$(echo $RESPONSE | grep 'health' | wc -l)
 
   if [ $UP_COUNT -ge 1 ]
