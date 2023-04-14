@@ -12,3 +12,11 @@ aws:
   accessKey: AKIATJLYTU5KNUR3E66F
   secretKey: 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
   region: ap-northeast-2
+
+logging:
+  file:
+    path: /home/ec2-user/
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
