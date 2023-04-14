@@ -27,4 +27,4 @@ else
 fi
 
 echo "> $APPLICATION_JAR 배포"
-nohup java -jar $APPLICATION_JAR > /dev/null 2> /dev/null < /dev/null &
+nohup java -jar $APPLICATION_JAR > /home/ec2-user/spring.log 2>&1 < /dev/null &
