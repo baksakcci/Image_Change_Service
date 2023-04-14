@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # about swagger
+
+aws:
+  bucket:
+    name: image-bucket-hyeok
+  accessKey: AKIATJLYTU5KNUR3E66F
+  secretKey: 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
+  region: ap-northeast-2
