@@ -16,7 +16,6 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping("/api/image")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://125.181.173.90")
 public class AwsS3Controller {
 
     private final AwsS3StorageService awsS3StorageService;
