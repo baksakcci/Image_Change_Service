@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 @RestController
 @RequestMapping("/api/image")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AwsS3Controller {
 
     private final AwsS3StorageService awsS3StorageService;
@@ -26,8 +27,7 @@ public class AwsS3Controller {
     }
 
     @PostMapping("/upload")
-    public String handleImageUpload(@RequestParam("image") MultipartFile image) {
-
+    public String handleImageUpload(@RequestParam("imageUrl") MultipartFile image) {
         return "Image uploaded successfully!";
     }
 
