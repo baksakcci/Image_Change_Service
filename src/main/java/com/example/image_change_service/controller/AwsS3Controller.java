@@ -21,6 +21,12 @@ public class AwsS3Controller {
     private final AwsS3StorageService awsS3StorageService;
 
     @PostMapping("/upload")
+    public String handleImageUpload(@RequestParam("image") MultipartFile image) {
+
+        return "Image uploaded successfully!";
+    }
+
+    @PostMapping("/upload")
     public ResponseEntity<?> upload(@ModelAttribute MultipartFile file) {
         URL url = awsS3StorageService.storedObject(file, file.getOriginalFilename(), file.getContentType());
 
