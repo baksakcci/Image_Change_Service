@@ -31,7 +31,7 @@ public class AwsS3Controller {
         return "Image uploaded successfully!";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload123")
     public ResponseEntity<?> upload(@ModelAttribute MultipartFile file) {
         URL url = awsS3StorageService.storedObject(file, file.getOriginalFilename(), file.getContentType());
 

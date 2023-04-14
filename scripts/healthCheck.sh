@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "> Health check 시작"
-echo "> curl -s http://localhost:8080/actuator/health "
+echo "> curl -s http://localhost:8080/health "
 
 for RETRY_COUNT in {1..15}
 do
@@ -12,7 +12,7 @@ do
       echo "> Health check 성공"
       break
   else
-      echo "> Health check의 응답을 알 수 없거나 혹은 status가 UP이 아닙니다."
+      echo "> Health check의 응답을 알 수 없거나 혹은 status가 health가 아닙니다."
       echo "> Health check: ${RESPONSE}"
   fi
 
