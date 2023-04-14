@@ -20,6 +20,11 @@ public class AwsS3Controller {
 
     private final AwsS3StorageService awsS3StorageService;
 
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "health";
+    }
+
     @PostMapping("/upload")
     public String handleImageUpload(@RequestParam("image") MultipartFile image) {
 

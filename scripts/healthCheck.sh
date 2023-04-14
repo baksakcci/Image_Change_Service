@@ -5,7 +5,7 @@ echo "> curl -s http://localhost:8080/actuator/health "
 for RETRY_COUNT in {1..15}
 do
   RESPONSE=$(curl -s http://localhost:8080/health)
-  UP_COUNT=$(echo $RESPONSE | grep 'UP' | wc -l)
+  UP_COUNT=$(echo $RESPONSE | grep 'health' | wc -l)
 
   if [ $UP_COUNT -ge 1 ]
   then # $up_count >= 1 ("UP" 문자열이 있는지 검증)
