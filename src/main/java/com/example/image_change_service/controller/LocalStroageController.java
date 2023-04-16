@@ -32,6 +32,7 @@ public class LocalStroageController {
         try{
             inputStream = file.getInputStream();
             image = IOUtils.toByteArray(inputStream);
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
