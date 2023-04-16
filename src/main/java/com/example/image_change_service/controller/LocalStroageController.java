@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
@@ -21,7 +22,7 @@ public class LocalStroageController {
     private final LocalStorageService localStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<byte[]> imageUploadTest(@RequestParam(value = "image", required = false) MultipartFile file) {
+    public ResponseEntity<byte[]> imageUploadTest(@RequestPart(value = "image", required = false) MultipartFile file) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
