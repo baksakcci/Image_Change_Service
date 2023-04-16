@@ -11,6 +11,7 @@ import java.io.IOException;
 public class LocalStorageService implements StorageService {
     @Override
     public FileOutputStream storedObject(MultipartFile file, String fileName, String contentType) {
+        /*
         File localFile = new File("C://Users/" + file.getOriginalFilename());
         try {
             file.transferTo(localFile);
@@ -19,6 +20,8 @@ public class LocalStorageService implements StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
         return null;
     }
 
