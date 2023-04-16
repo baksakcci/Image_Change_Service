@@ -22,7 +22,7 @@ public class LocalStroageController {
     private final LocalStorageService localStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<byte[]> imageUploadTest(@RequestPart(value = "image", required = false) MultipartFile file) {
+    public ResponseEntity<byte[]> imageUploadTest(@RequestPart(name = "image", required = false) MultipartFile file) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
