@@ -26,7 +26,7 @@ public class AwsS3Controller {
     }
 
     @PostMapping("/upload")
-    public String handleImageUpload(@RequestParam("imageUrl") MultipartFile image) {
+    public String handleImageUpload(@RequestParam("image") MultipartFile image) {
         return "Image uploaded successfully!";
     }
 
