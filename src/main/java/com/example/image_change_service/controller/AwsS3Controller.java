@@ -2,6 +2,7 @@ package com.example.image_change_service.controller;
 
 import com.example.image_change_service.dto.ResponseDto;
 import com.example.image_change_service.service.AwsS3StorageService;
+import com.example.image_change_service.service.LocalStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 
@@ -26,12 +30,7 @@ public class AwsS3Controller {
     }
 
     @PostMapping("/upload")
-    public String handleImageUpload(@RequestParam(value = "image", required = false) MultipartFile image) {
-        return "Image uploaded successfully!";
-    }
-
-    @PostMapping("/upload123")
-    public ResponseEntity<?> upload(@ModelAttribute MultipartFile file) {
+    public ResponseEntity<?> upload(@RequestParam("image") MultipartFile file) {
         URL url = awsS3StorageService.storedObject(file, file.getOriginalFilename(), file.getContentType());
 
         String message = "File uploaded Successful!";
