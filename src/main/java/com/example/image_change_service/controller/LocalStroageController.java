@@ -5,13 +5,9 @@ import com.example.image_change_service.service.LocalStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,7 +17,7 @@ import java.io.InputStream;
 public class LocalStroageController {
     private final LocalStorageService localStorageService;
 
-    @PostMapping("/upload")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<byte[]> imageUploadTest(@RequestParam("image") MultipartFile file) {
 
         HttpHeaders headers = new HttpHeaders();
