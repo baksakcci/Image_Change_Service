@@ -20,7 +20,7 @@ import java.net.URL;
 
 @Component
 @RequiredArgsConstructor
-public class AwsS3StorageService implements StorageService {
+public class AwsS3StorageService {
 
     private static final Logger logger = LoggerFactory.getLogger(AwsS3StorageService.class);
 

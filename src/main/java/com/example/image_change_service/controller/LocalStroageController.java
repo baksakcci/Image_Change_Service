@@ -20,19 +20,11 @@ public class LocalStroageController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<byte[]> imageUploadTest(@RequestParam("image") MultipartFile file) {
 
+        byte[] image = localStorageService.storedObject(file);
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
-        InputStream inputStream = null;
-        byte[] image = null;
-        try{
-            inputStream = file.getInputStream();
-            image = IOUtils.toByteArray(inputStream);
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
