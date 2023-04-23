@@ -29,7 +29,7 @@ public class AwsS3Controller {
         return "health";
     }
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> upload(@RequestParam("image") MultipartFile file) {
         URL url = awsS3StorageService.storedObject(file, file.getOriginalFilename(), file.getContentType());
 
@@ -38,7 +38,7 @@ public class AwsS3Controller {
 
         // responseDto convert 에러남 수정해야할듯
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
         return new ResponseEntity<>(responseDto, headers , HttpStatus.OK);
     }
@@ -62,7 +62,7 @@ public class AwsS3Controller {
         ResponseDto responseDto = new ResponseDto(null, message);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
         return new ResponseEntity<>(responseDto, headers, HttpStatus.OK);
     }

@@ -11,6 +11,7 @@ import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,9 +26,10 @@ public class AwsS3StorageService {
     private static final Logger logger = LoggerFactory.getLogger(AwsS3StorageService.class);
 
     // @Value는 필드나 생성자(매개변수)에다가 property 값을 읽어서 injection해주는 기능
-    @Value("${aws.bucket.name}")
+    @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
+    @Qualifier("AmazonS3Client")
     private final AmazonS3 amazonS3Client;
 
     public URL storedObject(MultipartFile file, String fileName, String contentType) {

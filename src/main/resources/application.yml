@@ -9,12 +9,18 @@ spring:
     multipart:
       enabled: true
 
-aws:
-  bucket:
-    name: image-bucket-hyeok
-  accessKey: AKIATJLYTU5KNUR3E66F
-  secretKey: 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
-  region: ap-northeast-2
+cloud:
+  aws:
+    s3:
+      bucket: image-bucket-hyeok
+    credentials:
+      access-key: AKIATJLYTU5KNUR3E66F
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 
 logging:
   file:
