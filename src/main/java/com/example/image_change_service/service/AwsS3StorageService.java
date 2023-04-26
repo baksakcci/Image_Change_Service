@@ -44,7 +44,6 @@ public class AwsS3StorageService {
         } catch (AmazonClientException | IOException exception) {
             logger.error(exception.getMessage());
             logger.error(exception.getLocalizedMessage());
-            throw new RuntimeException("Error while uploading file.");
         }
 
         // 저장된 S3 url 찾아오기
