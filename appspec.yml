@@ -7,7 +7,7 @@ files:
 
 # ec2-user로 설정해야함
 permissions:
-  - object: /
+  - object: /home/ec2-user/build/scripts
     pattern: "**"
     mode: '755'
     owner: ec2-user
