@@ -13,9 +13,10 @@ public class ImageChangeServiceApplication {
             + "classpath:application.yml";
     // + "classpath:aws.yml";
 
-    static {
+    /*static {
         System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
     }
+    */
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(ImageChangeServiceApplication.class)

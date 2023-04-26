@@ -42,7 +42,6 @@ public class AwsS3StorageService {
         try {
             amazonS3Client.putObject(bucketName, fileName, file.getInputStream(), objectMetadata);
         } catch (AmazonClientException | IOException exception) {
-            logger.error(exception.getMessage());
             logger.error(exception.getLocalizedMessage());
         }
 
