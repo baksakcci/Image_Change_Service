@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class ImageChangeServiceApplication {
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.yml,";
+            + "classpath:application.yml";
     // + "classpath:aws.yml";
 
     static {
