@@ -18,6 +18,8 @@ cloud:
       auto: false
     stack:
       auto: false
+    credentials:
+      instanceProfile: true
 
 logging:
   file:
