@@ -8,7 +8,7 @@ do
   UP_COUNT=$(echo $RESPONSE | grep 'health' | wc -l)
 
   if [ $UP_COUNT -ge 1 ]
-  then # $up_count >= 1 ("UP" 문자열이 있는지 검증)
+  then # $up_count >= 1 ("health" 문자열이 있는지 검증)
       echo "> Health check 성공"
       break
   else
