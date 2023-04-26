@@ -3,6 +3,7 @@ package com.example.image_change_service.RestTemplate_ImagePostTest;
 import com.example.image_change_service.dto.ResponseDto;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
@@ -15,9 +16,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 @SpringBootTest
 public class ImagePostTest {
     @Test
+    @Disabled
     public void postRequestWithImage() {
         String url = "http://13.209.144.73:8080/api/image/upload";
         RestTemplate restTemplate = new RestTemplate();

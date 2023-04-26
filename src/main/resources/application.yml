@@ -13,9 +13,6 @@ cloud:
   aws:
     s3:
       bucket: image-bucket-hyeok
-    credentials:
-      access-key: AKIATJLYTU5KNUR3E66F
-      secret-key: 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
     region:
       static: ap-northeast-2
       auto: false

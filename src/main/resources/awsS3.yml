@@ -1,6 +1,0 @@
-aws:
-  bucket:
-    name: image-bucket-hyeok
-  accessKey: AKIATJLYTU5KNUR3E66F
-  secretKey: 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
-  region: ap-northeast-2
