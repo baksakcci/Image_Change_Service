@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImageChangeServiceApplication {
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
             + "classpath:application.yml";
-    // + "classpath:aws.yml";
+            //+ "classpath:aws.yml";
 
     /*static {
         System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");

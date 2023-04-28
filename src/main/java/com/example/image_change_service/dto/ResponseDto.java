@@ -9,6 +9,6 @@ import java.net.URL;
 @AllArgsConstructor
 @Getter
 public class ResponseDto {
-    private URL url;
     private String message;
+    private byte[] imageData;
 }
