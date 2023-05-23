@@ -8,23 +8,16 @@ import com.amazonaws.util.IOUtils;
 import com.example.image_change_service.exception.AWSS3ServerErrorException;
 import com.example.image_change_service.exception.InternalServerErrorException;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 
 @Component
 @RequiredArgsConstructor
 public class AwsS3StorageService {
 
-    private final Logger logger = LoggerFactory.getLogger(AwsS3StorageService.class);
-
-    // @Value는 필드나 생성자(매개변수)에다가 property 값을 읽어서 injection해주는 기능
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
@@ -50,7 +43,6 @@ public class AwsS3StorageService {
         } catch (AmazonClientException | IOException e) {
             throw new InternalServerErrorException(e.getMessage());
         }
-
     }
 
 
@@ -71,7 +63,7 @@ public class AwsS3StorageService {
     public void deleteObject(String fileName) {
         String key = bucketName + "/" + fileName;
         try {
-            amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, key));
+            amazonS3Client.deleteObject(bucketName, key);
         } catch (AmazonServiceException e) {
             e.printStackTrace();
             throw new AWSS3ServerErrorException(e.getErrorMessage());
