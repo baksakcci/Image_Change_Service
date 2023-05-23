@@ -1,9 +1,8 @@
 package com.example.image_change_service.controller;
 
 import com.example.image_change_service.dto.FlaskResponseDto;
+import com.example.image_change_service.dto.ImageRequestDto;
 import com.example.image_change_service.dto.ResponseDto;
-import com.example.image_change_service.exception.ImageOverCapacityException;
-import com.example.image_change_service.exception.NotImageFileException;
 import com.example.image_change_service.service.AwsS3StorageService;
 import com.example.image_change_service.service.FlaskAPIService;
 
@@ -28,15 +27,10 @@ public class AwsS3Controller {
     }
 
     @PostMapping(value = "/image_change")
-    public ResponseEntity<?> imageChange(@RequestParam("image") MultipartFile file) {
-        // validation
-        if ((file.getContentType().equals("image/png")) && (file.getContentType().equals("image/jpg"))) {
-            throw new NotImageFileException();
-        }
-        if (file.getSize() > 10000000) {
-            throw new ImageOverCapacityException();
-        }
+    public ResponseEntity<?> imageChange(@RequestParam("image") final ImageRequestDto image) {
+        image.validateImage();
 
+        MultipartFile file = image.getImage();
         // store image
         awsS3StorageService.storedObject(file, file.getOriginalFilename(), file.getContentType());
 
