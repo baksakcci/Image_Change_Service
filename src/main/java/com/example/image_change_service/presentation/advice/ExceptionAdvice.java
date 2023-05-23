@@ -1,6 +1,6 @@
-package com.example.image_change_service.advice;
+package com.example.image_change_service.presentation.advice;
 
-import com.example.image_change_service.exception.*;
+import com.example.image_change_service.presentation.exception.*;
 import com.example.image_change_service.response.FailureResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

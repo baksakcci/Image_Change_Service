@@ -1,11 +1,13 @@
-package com.example.image_change_service.service;
+package com.example.image_change_service.infra;
 
-import com.example.image_change_service.dto.FlaskResponseDto;
+import com.example.image_change_service.domain.entity.Image;
+import com.example.image_change_service.dto.ConvertImageResponseDto;
+import com.example.image_change_service.domain.repository.ConnectImageConvertServer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,13 +15,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.nio.charset.Charset;
 
 
-@Service
+@Repository
 @RequiredArgsConstructor
-public class FlaskAPIService {
+public class ConnectImageConvertFlaskServer implements ConnectImageConvertServer {
 
     private final String baseUrl = "http://localhost:5000/change";
 
-    public FlaskResponseDto findChangeImageByFlask(String filename, String type) {
+    public ConvertImageResponseDto findConvertedImage(String filename, String type) {
         // query parameter 방식 사용
         UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .queryParam("filename", filename)
@@ -37,7 +39,7 @@ public class FlaskAPIService {
         RestTemplate restTemplate = new RestTemplate(factory);
 
         // 응답
-        FlaskResponseDto response = restTemplate.getForObject(uriComponents.toUriString(), FlaskResponseDto.class);
+        ConvertImageResponseDto response = restTemplate.getForObject(uriComponents.toUriString(), ConvertImageResponseDto.class);
 
         return response;
     }
