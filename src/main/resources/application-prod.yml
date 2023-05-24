@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: boardApplication-prod
+  servlet:
+    multipart:
+      enabled: true
+cloud:
+  aws:
+    s3:
+      bucket: image-bucket-hyeok
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true
+logging:
+  file:
+    path: /home/ec2-user/
