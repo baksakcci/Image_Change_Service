@@ -5,13 +5,13 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
+import com.example.image_change_service.domain.entity.Image;
 import com.example.image_change_service.presentation.exception.AWSS3ServerErrorException;
 import com.example.image_change_service.presentation.exception.InternalServerErrorException;
 import com.example.image_change_service.domain.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -24,25 +24,24 @@ public class AwsS3Storage implements ImageRepository {
 
     private final AmazonS3 amazonS3Client;
 
-    public void storedObject(MultipartFile file) {
+    public void storedObject(Image image) {
         // content-type, 파일길이 등 메타데이터 설정
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(file.getContentType());
-        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(image.getContentType());
+        objectMetadata.setContentLength(image.getSize());
 
-        String fileName = file.getOriginalFilename();
+        String fileName = image.getFilename();
         String key = bucketName + "/" + fileName;
 
         // 저장
         try {
-            amazonS3Client.putObject(bucketName, fileName, file.getInputStream(), objectMetadata);
-
+            amazonS3Client.putObject(bucketName, fileName, image.getImage(), objectMetadata);
             if(amazonS3Client.doesObjectExist(bucketName, key)) {
                 throw new InternalServerErrorException("Not File in Bucket");
             }
         } catch (AmazonServiceException e) {
             throw new AWSS3ServerErrorException(e.getErrorMessage());
-        } catch (AmazonClientException | IOException e) {
+        } catch (AmazonClientException e) {
             throw new InternalServerErrorException(e.getMessage());
         }
     }

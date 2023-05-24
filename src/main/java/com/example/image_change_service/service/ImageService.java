@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class ImageService {
@@ -16,10 +18,10 @@ public class ImageService {
 
     private final ConnectImageConvertServer connectImageConvertServer;
 
-    public ConvertImageResponseDto sendImageToAIServer(MultipartFile imageFile) {
-        Image image = Image.create(imageFile);
+    public ConvertImageResponseDto sendImageToAIServer(MultipartFile multipartFile) throws IOException{
+        Image image = Image.create(multipartFile);
 
-        imageRepository.storedObject(image.getImageFile());
+        imageRepository.storedObject(image);
 
         ConvertImageResponseDto convertedImage = connectImageConvertServer
                 .findConvertedImage(image.getFilename(), image.getContentType());
