@@ -3,20 +3,22 @@ package com.example.image_change_service.presentation.controller;
 import com.example.image_change_service.dto.ConvertImageResponseDto;
 import com.example.image_change_service.dto.ResponseDto;
 
-import com.example.image_change_service.presentation.exception.ImageOverCapacityException;
-import com.example.image_change_service.presentation.exception.NotImageFileException;
+import com.example.image_change_service.presentation.exception.CustomException;
+import com.example.image_change_service.presentation.exception.ErrorCode;
 import com.example.image_change_service.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/image")
 @RequiredArgsConstructor
+@Slf4j
 public class ImageConvertController {
 
     private final ImageService imageService;
@@ -27,13 +29,21 @@ public class ImageConvertController {
     }
 
     @PostMapping(value = "/image_change")
-    public ResponseEntity<?> imageChange(@RequestParam("image") final MultipartFile multipartFile) throws IOException {
-
-        if ((multipartFile.getOriginalFilename().equals("image/png")) && (multipartFile.getOriginalFilename().equals("image/jpg"))) {
-            throw new NotImageFileException();
+    public ResponseEntity<?> imageChange(
+            @RequestParam("index") Integer index,
+            @RequestParam("image") final MultipartFile multipartFile) {
+        if ((index > 6) && (index <= 0)) {
+            throw new CustomException(ErrorCode.INDEX_INVALID, "1~6 사이의 값 중 한개를 선택하세요");
+        }
+        String originalFilename = multipartFile.getOriginalFilename();
+        log.info(originalFilename);
+        log.info((originalFilename.substring(originalFilename.lastIndexOf("."))));
+        if (!((originalFilename.substring(originalFilename.lastIndexOf(".")).equals(".png"))
+                || (originalFilename.substring(originalFilename.lastIndexOf(".")).equals(".jpg")))) {
+            throw new CustomException(ErrorCode.IMAGE_FILE_INVALID_TYPE, "파일 형식을 다시한번 확인하세요.");
         }
         if (multipartFile.getSize() > 10000000) {
-            throw new ImageOverCapacityException();
+            throw new CustomException(ErrorCode.IMAGE_FILE_SIZE_OVER, "파일 사이즈를 확인하세요.");
         }
 
         ConvertImageResponseDto convertImage = imageService.sendImageToAIServer(multipartFile);

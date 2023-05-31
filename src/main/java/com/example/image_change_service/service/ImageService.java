@@ -4,6 +4,8 @@ import com.example.image_change_service.dto.ConvertImageResponseDto;
 import com.example.image_change_service.domain.repository.ConnectImageConvertServer;
 import com.example.image_change_service.domain.repository.ImageRepository;
 import com.example.image_change_service.domain.entity.Image;
+import com.example.image_change_service.presentation.exception.CustomException;
+import com.example.image_change_service.presentation.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +20,13 @@ public class ImageService {
 
     private final ConnectImageConvertServer connectImageConvertServer;
 
-    public ConvertImageResponseDto sendImageToAIServer(MultipartFile multipartFile) throws IOException{
-        Image image = Image.create(multipartFile);
-
+    public ConvertImageResponseDto sendImageToAIServer(MultipartFile multipartFile){
+        Image image;
+        try {
+            image = Image.create(multipartFile);
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
         imageRepository.storedObject(image);
 
         ConvertImageResponseDto convertedImage = connectImageConvertServer
@@ -32,7 +38,6 @@ public class ImageService {
     public byte[] loadConvertedImage(ConvertImageResponseDto convertImageResponseDto) {
         String convertedImageFilename = convertImageResponseDto.getFilename();
         byte[] bytes = imageRepository.fetchObject(convertedImageFilename);
-        // imageRepository.deleteObject(file.getOriginalFilename());
         return bytes;
     }
 }
