@@ -5,18 +5,24 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
-import com.example.image_change_service.domain.entity.Image;
+import com.example.image_change_service.domain.vo.Image;
 import com.example.image_change_service.presentation.exception.CustomException;
 import com.example.image_change_service.presentation.exception.ErrorCode;
 import com.example.image_change_service.domain.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AwsS3Storage implements ImageRepository {
 
     private final AmazonS3 amazonS3Client;
@@ -25,26 +31,22 @@ public class AwsS3Storage implements ImageRepository {
     private String bucketName;
 
     public void storedObject(Image image) {
-        // content-type, 파일길이 등 메타데이터 설정
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(image.getContentType());
-        objectMetadata.setContentLength(image.getSize());
-
-        String fileName = image.getFilename();
-        String key = bucketName + "/" + fileName;
-
         try {
-            amazonS3Client.putObject(bucketName, fileName, image.getImage(), objectMetadata);
-            if(amazonS3Client.doesObjectExist(bucketName, key)) { // 파일 이름을 확인해서 이미 존재하는 파일인지 확인
-                throw new CustomException(ErrorCode.AMAZON_CLIENT_ERROR, "not Found");
-            }
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(image.getContentType());
+            objectMetadata.setContentLength(image.getSize());
+            String fileName = image.getFilename();
+
+            InputStream imageInputStream = image.getImage().getInputStream();
+            imageInputStream.close();
+            amazonS3Client.putObject(bucketName, fileName, imageInputStream, objectMetadata);
         } catch (AmazonServiceException e) {
             throw new CustomException(ErrorCode.AMAZON_SERVER_ERROR, e.getErrorMessage());
-        } catch (AmazonClientException e) {
+        } catch (AmazonClientException | IOException e) {
+            log.error(e.getMessage());
             throw new CustomException(ErrorCode.AMAZON_CLIENT_ERROR, e.getLocalizedMessage());
         }
     }
-
 
     public byte[] fetchObject(String fileName) {
         byte[] bytes;
@@ -61,13 +63,37 @@ public class AwsS3Storage implements ImageRepository {
     }
 
     public void deleteObject(String fileName) {
-        String key = bucketName + "/" + fileName;
         try {
-            amazonS3Client.deleteObject(bucketName, key);
+            amazonS3Client.deleteObject(bucketName, fileName);
         } catch (AmazonServiceException e) {
             throw new CustomException(ErrorCode.AMAZON_SERVER_ERROR, e.getErrorMessage());
         } catch (AmazonClientException e) {
             throw new CustomException(ErrorCode.AMAZON_CLIENT_ERROR, e.getLocalizedMessage());
         }
+    }
+
+    public boolean checkImageExists(Image image) {
+        try {
+            String imageHash = calculateImageHash(image.getImage().getInputStream());
+
+            ObjectListing objectListing = amazonS3Client.listObjects(bucketName);
+            List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
+            for (S3ObjectSummary objectSummary : objectSummaries) {
+                String existingObjectHash = objectSummary.getETag();
+
+                if (imageHash.equals(existingObjectHash)) {
+                    log.info("S3 내에서 같은 파일을 찾았습니다!");
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+        }
+        log.info("같은 파일을 찾지 못했습니다.");
+        return false;
+    }
+
+    private String calculateImageHash(InputStream inputStream) throws IOException {
+        return DigestUtils.md5Hex(inputStream);
     }
 }

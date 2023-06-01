@@ -1,7 +1,6 @@
 package com.example.image_change_service.domain.repository;
 
-import com.example.image_change_service.domain.entity.Image;
-import org.springframework.web.multipart.MultipartFile;
+import com.example.image_change_service.domain.vo.Image;
 
 public interface ImageRepository {
     public void storedObject(Image image);
@@ -9,4 +8,6 @@ public interface ImageRepository {
     public byte[] fetchObject(String fileName);
 
     public void deleteObject(String fileName);
+
+    public boolean checkImageExists(Image image);
 }

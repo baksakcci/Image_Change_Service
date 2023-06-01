@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionAdvice {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity CustomExceptionHandler(CustomException e) {
-        log.error(e.getErrorMessage());
+        log.error(e.getErrorCode().name() + " " + e.getErrorMessage());
         ErrorCode errorCode = e.getErrorCode();
         FailureResponse failureResponse = FailureResponse.create(errorCode);
         return ResponseEntity.status(errorCode.getHttpStatus())

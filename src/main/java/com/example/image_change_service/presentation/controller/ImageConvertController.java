@@ -1,5 +1,6 @@
 package com.example.image_change_service.presentation.controller;
 
+import com.example.image_change_service.domain.vo.Image;
 import com.example.image_change_service.dto.ConvertImageResponseDto;
 import com.example.image_change_service.dto.ResponseDto;
 
@@ -45,9 +46,14 @@ public class ImageConvertController {
         if (multipartFile.getSize() > 10000000) {
             throw new CustomException(ErrorCode.IMAGE_FILE_SIZE_OVER, "파일 사이즈를 확인하세요.");
         }
+        if (multipartFile.isEmpty()) {
+            throw new CustomException(ErrorCode.IMAGE_FILE_IS_NULL, "이미지가 전달되지 않았습니다.");
+        }
 
-        ConvertImageResponseDto convertImage = imageService.sendImageToAIServer(multipartFile);
-        byte[] convertedImage = imageService.loadConvertedImage(convertImage);
+        Image image = Image.create(multipartFile);
+
+        imageService.uploadOriginalImage(image);
+        byte[] convertedImage = imageService.loadConvertedImage(image, index);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)

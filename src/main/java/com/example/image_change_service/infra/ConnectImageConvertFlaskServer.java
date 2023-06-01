@@ -1,6 +1,5 @@
 package com.example.image_change_service.infra;
 
-import com.example.image_change_service.domain.entity.Image;
 import com.example.image_change_service.dto.ConvertImageResponseDto;
 import com.example.image_change_service.domain.repository.ConnectImageConvertServer;
 import com.example.image_change_service.presentation.exception.CustomException;
@@ -16,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.ConnectException;
 import java.nio.charset.Charset;
 
 
