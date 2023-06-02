@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FlaskResponseDto {
+public class ConvertImageResponseDto {
     private String filename;
     private String type;
+    private String pos;
 }

@@ -1,31 +1,3 @@
-server:
-  port: 8080
-
 spring:
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher # about swagger
-  servlet:
-    multipart:
-      enabled: true
-
-cloud:
-  aws:
-    s3:
-      bucket: image-bucket-hyeok
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
-    credentials:
-      instanceProfile: true
-
-logging:
-  file:
-    path: /home/ec2-user/
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-
+  profiles:
+    active: prod
