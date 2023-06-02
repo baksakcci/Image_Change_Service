@@ -36,14 +36,14 @@ public class AwsS3Storage implements ImageRepository {
             objectMetadata.setContentType(image.getContentType());
             objectMetadata.setContentLength(image.getSize());
             String fileName = image.getFilename();
+            log.info("파일이름: " + fileName + ",파일크기: " + image.getSize());
 
             InputStream imageInputStream = image.getImage().getInputStream();
-            imageInputStream.close();
             amazonS3Client.putObject(bucketName, fileName, imageInputStream, objectMetadata);
+            imageInputStream.close();
         } catch (AmazonServiceException e) {
             throw new CustomException(ErrorCode.AMAZON_SERVER_ERROR, e.getErrorMessage());
         } catch (AmazonClientException | IOException e) {
-            log.error(e.getMessage());
             throw new CustomException(ErrorCode.AMAZON_CLIENT_ERROR, e.getLocalizedMessage());
         }
     }
