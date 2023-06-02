@@ -33,12 +33,10 @@ public class ImageConvertController {
     public ResponseEntity<?> imageChange(
             @RequestParam("index") Integer index,
             @RequestParam("image") final MultipartFile multipartFile) {
-        if ((index > 6) && (index <= 0)) {
+        if ((index > 6) || (index <= 0)) {
             throw new CustomException(ErrorCode.INDEX_INVALID, "1~6 사이의 값 중 한개를 선택하세요");
         }
         String originalFilename = multipartFile.getOriginalFilename();
-        log.info(originalFilename);
-        log.info((originalFilename.substring(originalFilename.lastIndexOf("."))));
         if (!((originalFilename.substring(originalFilename.lastIndexOf(".")).equals(".png"))
                 || (originalFilename.substring(originalFilename.lastIndexOf(".")).equals(".jpg")))) {
             throw new CustomException(ErrorCode.IMAGE_FILE_INVALID_TYPE, "파일 형식을 다시한번 확인하세요.");

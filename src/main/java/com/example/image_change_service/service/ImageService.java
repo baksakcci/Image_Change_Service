@@ -46,6 +46,7 @@ public class ImageService {
 
     public byte[] loadConvertedImage(Image image, Integer index) {
         String filename = image.convertName(image.getImage().getOriginalFilename(), index);
+        log.info("변경된 파일 이름: " + filename);
         byte[] bytes = imageRepository.fetchObject(filename);
         return bytes;
     }
