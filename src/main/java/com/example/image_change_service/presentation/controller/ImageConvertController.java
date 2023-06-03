@@ -51,6 +51,7 @@ public class ImageConvertController {
         Image image = Image.create(multipartFile);
 
         imageService.uploadOriginalImage(image);
+        // imageService.sendImageToAIServer(image);
         byte[] convertedImage = imageService.loadConvertedImage(image, index);
 
         return ResponseEntity.ok()
