@@ -21,17 +21,13 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final ConnectImageConvertServer connectImageConvertServer;
 
-    public ConvertImageResponseDto sendImageToAIServer(MultipartFile multipartFile){
-        Image image;
-        image = Image.create(multipartFile);
-
-        ConvertImageResponseDto convertedImage = null;
-        if(imageRepository.checkImageExists(image)) { // 존재하면,
+    public ConvertImageResponseDto sendImageToAIServer(Image image){
+        ConvertImageResponseDto convertedImage = new ConvertImageResponseDto();
+        if(imageRepository.checkImageExists(image)) {
             convertedImage.setFilename(image.getFilename());
             convertedImage.setType(image.getContentType());
         } else {
             imageRepository.storedObject(image);
-            // API 통신
             convertedImage = connectImageConvertServer
                             .findConvertedImage(image.getFilename(), image.getContentType());
         }
@@ -46,6 +42,7 @@ public class ImageService {
 
     public byte[] loadConvertedImage(Image image, Integer index) {
         String filename = image.convertName(image.getImage().getOriginalFilename(), index);
+        // String filename = image.convertName2(image.getImage().getOriginalFilename());
         log.info("변경된 파일 이름: " + filename);
         byte[] bytes = imageRepository.fetchObject(filename);
         return bytes;

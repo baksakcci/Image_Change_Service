@@ -30,4 +30,10 @@ public class Image {
         String convert = split[0] + index.toString() + "." + split[1];
         return convert;
     }
+
+    public String convertName2(String filename) {
+        String[] split = filename.split("\\.");
+        String convert = split[0] + "changed" + "." + split[1];
+        return convert;
+    }
 }

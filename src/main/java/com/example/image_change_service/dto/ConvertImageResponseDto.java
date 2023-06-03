@@ -10,5 +10,4 @@ import lombok.Setter;
 public class ConvertImageResponseDto {
     private String filename;
     private String type;
-    private String pos;
 }
