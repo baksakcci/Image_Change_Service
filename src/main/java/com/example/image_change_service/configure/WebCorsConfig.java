@@ -9,7 +9,7 @@ public class WebCorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "https://image-change.vercel.app")
+                .allowedOrigins("http://localhost:3000", "https://image-change-a7ia1vzis-mimmmji.vercel.app/")
                 .allowedMethods("GET", "POST", "OPTIONS")
                 .allowCredentials(true)
                 .maxAge(3000);
