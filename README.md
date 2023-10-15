@@ -3,7 +3,7 @@
 
 # 프로젝트 핵심 기능
 - 이미지 업로드 → AI 서버에서 변형 후 다운로드
-- StyleGen 모델을 이용한 이미지 변환
+- StyleGAN2 모델을 이용한 이미지 변환
 
 # API 명세
 | API 이름 |HTTP Method| URL                     |Type|RequestBody| ResponseType                                                                                               | ResponseBody                                             |
